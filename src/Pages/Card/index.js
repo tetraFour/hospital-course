@@ -1,49 +1,64 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 
 import { useParams, useHistory } from "react-router-dom";
 
-import { Layout, Card, Button, Typography } from "antd";
+import { Layout, Card, Button, Typography, Spin } from "antd";
 import { EditOutlined, CloseOutlined } from "@ant-design/icons";
 
 import cardIcon from "../../assets/images/medical.svg";
-import axios from "axios";
-import ChangeAuthor from "../../Components/Modals/ChangeAuthor";
-import ChangeBookName from "../../Components/Modals/ChangeName";
-import ChangeBookPrice from "../../Components/Modals/ChangePrice";
-import AddToBasket from "../../Components/Modals/AddToBasket";
 
-import bookList from "../../books.json";
+import AddDisease from "../../Components/Modals/AddDisease";
+import DiseaseList from "../../Components/DiseaseList";
+import Axios from "axios";
+import { useNotification } from "../../hooks";
+
+// const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const BookPage = () => {
   const { id } = useParams();
   const history = useHistory();
+  const notification = useNotification();
 
-  const [book, setBook] = React.useState(null);
+  const [card, setCard] = React.useState(null);
 
-  const [changeAuthorVisible, setChangeAuthorVisible] = React.useState(false);
-  const [addToBasketVisible, setAddToBasketVisible] = React.useState(false);
-  const [changeBookNameVisible, setChangeBookNameVisible] = React.useState(
-    false
+  const [inc, setInc] = React.useState(0);
+
+  const [changeAddDiseaseVisible, setChangeAddDiseaseVisible] = React.useState(
+    null
   );
-  const [changePriceVisible, setChangePriceVisible] = React.useState(false);
+
+  const [isUser, setIsUser] = React.useState(false);
+
+  useLayoutEffect(() => {
+    const { role } = JSON.parse(localStorage.getItem("user"));
+    if (role === 1) {
+      setIsUser(true);
+    }
+  }, []);
 
   React.useEffect(() => {
-    const fetchAndEditBooks = async () => {
-      // const { data } = await axios("http://localhost:8060/api/books");
-      const currentBook = bookList.filter(b => b.id === Number(id));
-      // console.log("book", currentBook);
-      setBook(currentBook[0]);
+    const fetchAndEditCard = async () => {
+      const { data } = await Axios(
+        `http://localhost:5000/api/card/get-current-card?cardid=${id}`
+      );
+
+      setCard(data);
     };
 
-    fetchAndEditBooks();
-  }, [id]);
+    fetchAndEditCard();
+  }, [inc, id]);
 
-  // console.log(book);
-
-  const deleteBook = async () => {
+  const archiveCard = async () => {
     try {
-      await axios.post("http://localhost:8060/api/delete-book", { id });
-      history.push("/");
+      await Axios.delete(
+        `http://localhost:5000/api/card/delete-current-card/${card.card._id}`
+      );
+      notification(
+        "success",
+        "Медицинская карта перенесена в архив",
+        `Медицинская карта №${card.card._id} успешно перенесена в архив`
+      );
+      history.push("/home");
     } catch (error) {}
   };
 
@@ -57,48 +72,64 @@ const BookPage = () => {
           justifyContent: "center"
         }}
       >
-        <div className="button-wrapper">
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => setChangeBookNameVisible(prev => !prev)}
-          >
-            добавить заболеваение
-          </Button>
-          <Button
-            type="primary"
-            danger
-            icon={<CloseOutlined />}
-            onClick={deleteBook}
-          >
-            Удалить мед. карту
-          </Button>
-        </div>
-        {book && (
-          <Card
-            key={book.id}
-            className="book-card book-card__max"
-            cover={
-              <img
-                alt="example"
-                src={cardIcon}
-                style={{ width: "200px", height: "200px", margin: "0 auto" }}
+        {!isUser && (
+          <div className="button-wrapper">
+            <Button
+              type="primary"
+              icon={<EditOutlined />}
+              onClick={() => setChangeAddDiseaseVisible(prev => !prev)}
+            >
+              добавить заболеваение
+            </Button>
+            <Button
+              type="primary"
+              danger
+              icon={<CloseOutlined />}
+              onClick={archiveCard}
+            >
+              Поместить в архив
+            </Button>
+          </div>
+        )}
+        {card ? (
+          <>
+            <Card
+              key={card.card.id}
+              className="book-card book-card__max"
+              cover={
+                <img
+                  alt="example"
+                  src={cardIcon}
+                  style={{ width: "200px", height: "200px", margin: "0 auto" }}
+                />
+              }
+            >
+              <Card.Meta
+                title={`карта №: ${card.card._id}`}
+                description={`пациент: ${card.card.userId.name}`}
               />
-            }
-          >
-            <Card.Meta
-              description={`карта №: ${book.bookName}`}
-              title={`пациент: ${book.bookAuthor}`}
-            />
-            <Typography.Title level={4} style={{ margin: "10px 0 0" }}>
-              дата рождения: {book.price}
-            </Typography.Title>
-            <Typography.Title level={5} style={{ margin: "10px 0 0" }}>
-              Адрес проживания:
-            </Typography.Title>
-          </Card>
+              <Typography.Title level={4} style={{ margin: "10px 0 0" }}>
+                дата рождения: {card.card.userId.age}
+              </Typography.Title>
+              <Typography.Title level={5} style={{ margin: "10px 0 0" }}>
+                Адрес проживания: {card.card.userId.address}
+              </Typography.Title>
+            </Card>
+            <DiseaseList disease={card.disease} />
+          </>
+        ) : (
+          <Spin />
         )}
       </Layout>
+      {card && (
+        <AddDisease
+          addDisease={changeAddDiseaseVisible}
+          setAddDisease={setChangeAddDiseaseVisible}
+          user={card.card.userId.name}
+          card={card.card._id}
+          setInc={setInc}
+        />
+      )}
     </>
   );
 };

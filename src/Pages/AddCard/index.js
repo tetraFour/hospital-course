@@ -16,7 +16,7 @@ const AddBookPage = () => {
     name: "",
     year: 1500,
     genre: "",
-    price: 1,
+    price: 1
   });
 
   const [isFetching, setIsFetching] = React.useState(false);
@@ -45,35 +45,31 @@ const AddBookPage = () => {
     setIsFetching(false);
   };
 
-  const onChangePrice = (value) => {
+  const onChangePrice = value => {
     setData({ ...data, price: value });
   };
 
-  const onChangeYear = (value) => {
+  const onChangeYear = value => {
     setData({ ...data, year: value });
   };
 
-  // console.log("author", currentAuthor);
-
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
 
     try {
       const finalData = {
         ...data,
         author: {
-          id: Number(currentAuthor.value),
+          id: Number(currentAuthor.value)
         },
         publishingHouse: {
-          id: currentPub.value,
-        },
+          id: currentPub.value
+        }
       };
-
-      // console.log(finalData);
 
       await axios.post("http://localhost:8060/api/new-book", finalData);
       setData(clearObject);
-      history.push("/");
+      history.push("/home");
     } catch (error) {}
   };
   return (
@@ -82,7 +78,7 @@ const AddBookPage = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
       }}
     >
       <form onSubmit={onSubmit} style={{ width: "40%" }}>
@@ -105,7 +101,7 @@ const AddBookPage = () => {
           onChange={setCurrentAuthor}
           style={{ width: "100%", marginBottom: "15px" }}
         >
-          {authors.map((d) => (
+          {authors.map(d => (
             <Option key={d.id}>
               {d.name} {d.surname}
             </Option>
@@ -146,7 +142,7 @@ const AddBookPage = () => {
           onChange={setCurrentPub}
           style={{ width: "100%", marginBottom: "15px" }}
         >
-          {pubs.map((d) => (
+          {pubs.map(d => (
             <Option key={d.id}>{d.address}</Option>
           ))}
         </Select>

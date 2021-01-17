@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import axios from "axios";
 
 import { useHistory } from "react-router-dom";
 
 import { Layout, Button, Input } from "antd";
+import { useNotification } from "../../hooks";
 
 const AddAuthorPage = () => {
   const history = useHistory();
@@ -18,9 +19,18 @@ const AddAuthorPage = () => {
     login: ""
   });
 
+  const notification = useNotification();
+
   const onChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value });
   };
+
+  useEffect(() => {
+    const { role } = JSON.parse(localStorage.getItem("user"));
+    if (role === 1) {
+      history.push("/home");
+    }
+  }, [history]);
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -33,7 +43,12 @@ const AddAuthorPage = () => {
       data.email = "";
       data.address = "";
       data.login = "";
-      history.push("/");
+      notification(
+        "success",
+        "Пациент создан",
+        "Пациент и карта пациента успешно созданы"
+      );
+      history.push("/home");
     } catch (error) {}
   };
 

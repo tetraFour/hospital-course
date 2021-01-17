@@ -16,14 +16,14 @@ const AdminPage = () => {
     phone: "",
     login: "",
     surname: "",
-    email: "",
+    email: ""
   });
 
   const onChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
 
     const password = uuidv4();
@@ -32,7 +32,7 @@ const AdminPage = () => {
     try {
       await axios.post("http://localhost:8060/api/registration", finalData);
       setData(clearObject);
-      history.push("/");
+      history.push("/home");
     } catch (error) {}
   };
 
@@ -42,7 +42,7 @@ const AdminPage = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
       }}
     >
       <form onSubmit={onSubmit} style={{ maxWidth: "600px" }}>

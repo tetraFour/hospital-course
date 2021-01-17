@@ -9,13 +9,13 @@ const AddHousePage = () => {
 
   const history = useHistory();
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
     await axios.post("http://localhost:8060/api/add-house", { address });
-    history.push("/");
+    history.push("/home");
   };
 
-  const onChange = (e) => {
+  const onChange = e => {
     setAddress(e.target.value);
   };
 
@@ -25,7 +25,7 @@ const AddHousePage = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
       }}
     >
       <form onSubmit={onSubmit}>

@@ -8,7 +8,7 @@ import axios from "axios";
 const ChangeAuthor = ({
   changeAuthorVisible,
   setChangeAuthorVisible,
-  book,
+  book
 }) => {
   const history = useHistory();
 
@@ -26,12 +26,12 @@ const ChangeAuthor = ({
     delete finalBook.publishingHouse.address;
     // console.log(finalBook, currentAuthor);
     await axios.post("http://localhost:8060/api/edit-book", finalBook);
-    setChangeAuthorVisible((prev) => !prev);
-    history.push("/");
+    setChangeAuthorVisible(prev => !prev);
+    history.push("/home");
   };
 
   const handleCancel = () => {
-    setChangeAuthorVisible((prev) => !prev);
+    setChangeAuthorVisible(prev => !prev);
   };
 
   const fetchAuthors = async () => {
@@ -62,7 +62,7 @@ const ChangeAuthor = ({
           onChange={setCurrentAuthor}
           style={{ width: "100%", marginBottom: "15px" }}
         >
-          {authors.map((d) => (
+          {authors.map(d => (
             <Select.Option key={d.id}>
               {d.name} {d.surname}
             </Select.Option>

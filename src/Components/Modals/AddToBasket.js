@@ -8,7 +8,7 @@ import axios from "axios";
 const ChangeBookName = ({
   addToBasketVisible,
   setAddToBasketVisible,
-  book,
+  book
 }) => {
   const history = useHistory();
 
@@ -20,7 +20,7 @@ const ChangeBookName = ({
   const handleOk = async () => {
     const finalBook = {
       book: { id: book.id },
-      user: { id: currentUser.value },
+      user: { id: currentUser.value }
     };
     // finalBook.name = bookName;
     // delete finalBook.author.name;
@@ -28,8 +28,8 @@ const ChangeBookName = ({
     // delete finalBook.author.about;
     // delete finalBook.publishingHouse.address;
     await axios.post("http://localhost:8060/api/new-order", finalBook);
-    setAddToBasketVisible((prev) => !prev);
-    history.push("/");
+    setAddToBasketVisible(prev => !prev);
+    history.push("/home");
   };
 
   const fetchUsers = async () => {
@@ -40,7 +40,7 @@ const ChangeBookName = ({
   };
 
   const handleCancel = () => {
-    setAddToBasketVisible((prev) => !prev);
+    setAddToBasketVisible(prev => !prev);
   };
 
   return (
@@ -63,7 +63,7 @@ const ChangeBookName = ({
           onChange={setCurrentUser}
           style={{ width: "100%", marginBottom: "15px" }}
         >
-          {users.map((d) => (
+          {users.map(d => (
             <Select.Option key={d.id}>
               {d.name} (логин: {d.login})
             </Select.Option>

@@ -11,20 +11,9 @@ const columns = [
     render: text => <Typography>{text}</Typography>
   },
   {
-    title: "Имя",
+    title: "Наименование болезни",
     dataIndex: "name",
     key: "name"
-  },
-  {
-    title: "Книга",
-    dataIndex: "bookName",
-    key: "bookName"
-  },
-
-  {
-    title: "Цена",
-    dataIndex: "price",
-    key: "price"
   }
 ];
 

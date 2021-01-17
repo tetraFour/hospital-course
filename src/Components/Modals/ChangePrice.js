@@ -10,7 +10,7 @@ const ChangeBookPrice = ({ changeBookPrice, setChangeBookPrice, book }) => {
 
   const [bookPrice, setBookPrice] = React.useState(1);
 
-  const onChangePrice = (value) => {
+  const onChangePrice = value => {
     setBookPrice(value);
   };
 
@@ -22,12 +22,12 @@ const ChangeBookPrice = ({ changeBookPrice, setChangeBookPrice, book }) => {
     delete finalBook.author.about;
     delete finalBook.publishingHouse.address;
     await axios.post("http://localhost:8060/api/edit-book", finalBook);
-    setChangeBookPrice((prev) => !prev);
-    history.push("/");
+    setChangeBookPrice(prev => !prev);
+    history.push("/home");
   };
 
   const handleCancel = () => {
-    setChangeBookPrice((prev) => !prev);
+    setChangeBookPrice(prev => !prev);
   };
 
   return (

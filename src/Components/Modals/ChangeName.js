@@ -18,12 +18,12 @@ const ChangeBookName = ({ changeNameVisible, setChangeNameVisible, book }) => {
     delete finalBook.author.about;
     delete finalBook.publishingHouse.address;
     await axios.post("http://localhost:8060/api/edit-book", finalBook);
-    setChangeNameVisible((prev) => !prev);
-    history.push("/");
+    setChangeNameVisible(prev => !prev);
+    history.push("/home");
   };
 
   const handleCancel = () => {
-    setChangeNameVisible((prev) => !prev);
+    setChangeNameVisible(prev => !prev);
   };
 
   return (
@@ -34,7 +34,7 @@ const ChangeBookName = ({ changeNameVisible, setChangeNameVisible, book }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Input value={bookName} onChange={(e) => setBookName(e.target.value)} />
+        <Input value={bookName} onChange={e => setBookName(e.target.value)} />
       </Modal>
     )
   );
