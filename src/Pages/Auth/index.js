@@ -36,19 +36,22 @@ const AuthPage = () => {
   };
   const submitHandler = async e => {
     e.preventDefault();
+    try {
+      const { data } = await Axios.post(
+        "https://hospital-course-backend.herokuapp.com/api/auth/sign-in",
+        {
+          ...authCred
+        }
+      );
+      localStorage.setItem("user", JSON.stringify(data));
+      console.log(data);
+      history.push("/home");
+      notification("success", "Успешный вход", `Вы вошли как ${data.login}`);
+    } catch (e) {
+      notification("error", "Ошибка", `Что-то пошло не так!`);
+    }
 
-    const { data } = await Axios.post(
-      "https://hospital-course-backend.herokuapp.com/api/auth/sign-in",
-      {
-        ...authCred
-      }
-    );
-    localStorage.setItem("user", JSON.stringify(data));
-    console.log(data);
-    history.push("/home");
-    notification("success", "Успешный вход", `Вы вошли как ${data.login}`);
-
-    console.log(data);
+    // console.log(data);
   };
 
   return (

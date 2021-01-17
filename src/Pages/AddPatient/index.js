@@ -81,16 +81,16 @@ const AddAuthorPage = () => {
         />
         <Input
           onChange={onChange}
-          value={data.password}
-          name="password"
-          placeholder="пароль"
+          value={data.login}
+          name="login"
+          placeholder="логин"
           style={{ marginBottom: "15px" }}
         />
         <Input
           onChange={onChange}
-          value={data.login}
-          name="login"
-          placeholder="логин"
+          value={data.password}
+          name="password"
+          placeholder="пароль"
           style={{ marginBottom: "15px" }}
         />
         <Input
