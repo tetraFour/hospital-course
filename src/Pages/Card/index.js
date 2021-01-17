@@ -105,17 +105,17 @@ const BookPage = () => {
               }
             >
               <Card.Meta
-                title={`карта №: ${card.card._id}`}
-                description={`пациент: ${card.card.userId.name}`}
+                title={`карта №: ${card?.card?._id}`}
+                description={`пациент: ${card?.card?.userId?.name}`}
               />
               <Typography.Title level={4} style={{ margin: "10px 0 0" }}>
-                дата рождения: {card.card.userId.age}
+                дата рождения: {card?.card?.userId?.age}
               </Typography.Title>
               <Typography.Title level={5} style={{ margin: "10px 0 0" }}>
-                Адрес проживания: {card.card.userId.address}
+                Адрес проживания: {card?.card?.userId?.address}
               </Typography.Title>
             </Card>
-            <DiseaseList disease={card.disease} />
+            <DiseaseList disease={card?.disease} />
           </>
         ) : (
           <Spin />
@@ -125,8 +125,8 @@ const BookPage = () => {
         <AddDisease
           addDisease={changeAddDiseaseVisible}
           setAddDisease={setChangeAddDiseaseVisible}
-          user={card.card.userId.name}
-          card={card.card._id}
+          user={card?.card?.userId?.name}
+          card={card?.card?._id}
           setInc={setInc}
         />
       )}

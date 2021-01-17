@@ -51,7 +51,7 @@ const BooksList = () => {
   return (
     <Content className="site-layout-background site-layout-background__book-list">
       {role === 2 ? (
-        !cardList.length ? (
+        !cardList && !cardList.length ? (
           <Spin size="large" />
         ) : (
           cardList.map(card => (
@@ -71,8 +71,8 @@ const BooksList = () => {
               }}
             >
               <Meta
-                title={`карта №: ${card._id}`}
-                description={`пациент: ${card.userId.name}`}
+                title={`карта №: ${card?._id}`}
+                description={`пациент: ${card?.userId?.name}`}
               />
             </Card>
           ))
