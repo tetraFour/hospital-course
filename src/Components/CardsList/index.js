@@ -23,7 +23,9 @@ const BooksList = () => {
 
   React.useEffect(() => {
     const fetchCards = async () => {
-      const { data } = await axios("http://localhost:5000/api/card/get-cards");
+      const { data } = await axios(
+        "https://hospital-course-backend.herokuapp.com/api/card/get-cards"
+      );
       setCardList(data);
     };
 
@@ -33,7 +35,7 @@ const BooksList = () => {
       const {
         data: { card }
       } = await axios(
-        `http://localhost:5000/api/card/get-user-card?userid=${userId}`
+        `https://hospital-course-backend.herokuapp.com/api/card/get-user-card?userid=${userId}`
       );
       console.log(card);
       setUserCard(card);

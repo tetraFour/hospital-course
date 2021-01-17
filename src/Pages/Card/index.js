@@ -39,7 +39,7 @@ const BookPage = () => {
   React.useEffect(() => {
     const fetchAndEditCard = async () => {
       const { data } = await Axios(
-        `http://localhost:5000/api/card/get-current-card?cardid=${id}`
+        `https://hospital-course-backend.herokuapp.com/api/card/get-current-card?cardid=${id}`
       );
 
       setCard(data);
@@ -51,7 +51,7 @@ const BookPage = () => {
   const archiveCard = async () => {
     try {
       await Axios.delete(
-        `http://localhost:5000/api/card/delete-current-card/${card.card._id}`
+        `https://hospital-course-backend.herokuapp.com/api/card/delete-current-card/${card.card._id}`
       );
       notification(
         "success",

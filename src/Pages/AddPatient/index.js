@@ -36,7 +36,10 @@ const AddAuthorPage = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/api/user/create-user", data);
+      await axios.post(
+        "https://hospital-course-backend.herokuapp.com/api/user/create-user",
+        data
+      );
       data.name = "";
       data.password = "";
       data.age = "";

@@ -12,11 +12,14 @@ const AddDisease = ({ addDisease, setAddDisease, user, card, setInc }) => {
   const [recommendations, setRecommendations] = React.useState("");
 
   const handleOk = async () => {
-    await axios.post("http://localhost:5000/api/disease/add-disease", {
-      diseaseType: disease,
-      cardId: card,
-      recommendations
-    });
+    await axios.post(
+      "https://hospital-course-backend.herokuapp.com/api/disease/add-disease",
+      {
+        diseaseType: disease,
+        cardId: card,
+        recommendations
+      }
+    );
     setInc(prev => prev + 1);
     notification(
       "success",

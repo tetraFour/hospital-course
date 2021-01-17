@@ -38,7 +38,7 @@ const AuthPage = () => {
     e.preventDefault();
 
     const { data } = await Axios.post(
-      "http://localhost:5000/api/auth/sign-in",
+      "https://hospital-course-backend.herokuapp.com/api/auth/sign-in",
       {
         ...authCred
       }
